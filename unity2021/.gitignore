@@ -1,0 +1,19 @@
+
+/_dist_/
+/_build_/
+/VideoSee/Assets/TextMesh Pro/
+/VideoSee/Assets/TextMesh Pro.meta
+/VideoSee/Assets/Plugins/
+/VideoSee/Assets/Plugins.meta
+/VideoSee/Assets/3rd/
+/VideoSee/Assets/3rd.meta
+/VideoSee/Library/
+/VideoSee/obj/
+/VideoSee/Logs/
+/VideoSee/Temp/
+/VideoSee/UserSettings/
+/VideoSee/*.sln
+/VideoSee/*.csproj
+/VideoSee/.vsconfig
+/VideoSee/.vs/
+/.UNITY_HOME.env
