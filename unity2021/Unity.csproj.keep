@@ -81,6 +81,9 @@
     <Reference Include="UnityEngine.TextRenderingModule">
       <HintPath>{{UNITY_HOME}}\Editor\Data\Managed\UnityEngine\UnityEngine.TextRenderingModule.dll</HintPath>
     </Reference>
+    <Reference Include="AVProVideoPlugin">
+      <HintPath>{{WORK_DIR}}\VideoSee\Assets\3rd\AVProVideo\AVProVideoPlugin.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
