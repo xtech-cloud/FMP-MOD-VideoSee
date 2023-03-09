@@ -33,7 +33,7 @@ public class Root : RootBase
 
         if (GUI.Button(new Rect(0, 30, 60, 30), "Open"))
         {
-            entry_.__DebugOpen("test", "file", "", 0.5f);
+            entry_.__DebugOpen("test", "assloud://", "XTC.VideoSee/_attachments/test.mp4", 0f);
         }
 
         if (GUI.Button(new Rect(0, 60, 60, 30), "Show"))
