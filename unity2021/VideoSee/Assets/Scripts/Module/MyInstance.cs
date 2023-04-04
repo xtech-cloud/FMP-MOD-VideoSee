@@ -32,6 +32,7 @@ namespace XTC.FMP.MOD.VideoSee.LIB.Unity
             public Text textTime;
             public Button btnPlay;
             public Button btnPause;
+            public Button btnVolume;
 
             public Button btnLoopNone;
             public Button btnLoopSingle;
@@ -78,9 +79,10 @@ namespace XTC.FMP.MOD.VideoSee.LIB.Unity
             uiReference_.seeker = uiReference_.toolbar.transform.Find("sdSeeker").GetComponent<Slider>();
             uiReference_.btnLoopNone = uiReference_.toolbar.transform.Find("btnLoopNone").GetComponent<Button>();
             uiReference_.btnLoopSingle = uiReference_.toolbar.transform.Find("btnLoopSingle").GetComponent<Button>();
-            uiReference_.volume = uiReference_.toolbar.transform.Find("sdVolume").GetComponent<Slider>();
+            uiReference_.volume = uiReference_.toolbar.transform.Find("btnVolume/sdVolume").GetComponent<Slider>();
             uiReference_.btnPlay = uiReference_.toolbar.transform.Find("btnPlay").GetComponent<Button>();
             uiReference_.btnPause = uiReference_.toolbar.transform.Find("btnPause").GetComponent<Button>();
+            uiReference_.btnVolume = uiReference_.toolbar.transform.Find("btnVolume").GetComponent<Button>();
 
             applyStyle();
             bindEvents();
@@ -151,21 +153,89 @@ namespace XTC.FMP.MOD.VideoSee.LIB.Unity
                     color = Color.white;
                 return color;
             };
-            Color primaryColor = convertColor(style_.primaryColor);
-            uiReference_.pending.GetComponent<RawImage>().color = primaryColor;
             rootUI.transform.Find("bg").gameObject.SetActive(style_.background.visible);
             rootUI.transform.Find("bg").GetComponent<RawImage>().color = convertColor(style_.background.color);
 
+            // 等待
+            alignByAncor(uiReference_.pending.transform, style_.pending.anchor);
+            loadTextureFromTheme(style_.pending.image, (_texture) =>
+            {
+                uiReference_.pending.GetComponent<RawImage>().texture = _texture;
+            }, () => { });
+
             uiReference_.btnLoopSingle.gameObject.SetActive(style_.toolbar.btnLoop.visible);
             uiReference_.btnLoopNone.gameObject.SetActive(style_.toolbar.btnLoop.visible);
-            uiReference_.seeker.transform.Find("Fill Area/Fill").GetComponent<Image>().color = primaryColor;
-            uiReference_.seeker.transform.Find("Handle Slide Area/Handle").GetComponent<Image>().color = primaryColor;
-            uiReference_.volume.transform.Find("Fill Area/Fill").GetComponent<Image>().color = primaryColor;
-
-            var rtSeeker = uiReference_.seeker.GetComponent<RectTransform>();
-            rtSeeker.sizeDelta = new Vector2(style_.toolbar.sliderProgress.width, rtSeeker.sizeDelta.y);
 
             alignByAncor(uiReference_.toolbar, style_.toolbar.anchor);
+
+
+            uiReference_.btnPlay.GetComponent<RectTransform>().sizeDelta = new Vector2(style_.toolbar.anchor.height, style_.toolbar.anchor.height);
+            uiReference_.btnPlay.GetComponent<LayoutElement>().minWidth = style_.toolbar.anchor.height;
+            loadTextureFromTheme(style_.toolbar.btnPlay.icon, (_texture) =>
+            {
+                uiReference_.btnPlay.GetComponent<RawImage>().texture = _texture;
+            }, () => { });
+            uiReference_.btnPause.GetComponent<RectTransform>().sizeDelta = new Vector2(style_.toolbar.anchor.height, style_.toolbar.anchor.height);
+            uiReference_.btnPause.GetComponent<LayoutElement>().minWidth = style_.toolbar.anchor.height;
+            loadTextureFromTheme(style_.toolbar.btnPause.icon, (_texture) =>
+            {
+                uiReference_.btnPause.GetComponent<RawImage>().texture = _texture;
+            }, () => { });
+            uiReference_.btnLoopSingle.GetComponent<RectTransform>().sizeDelta = new Vector2(style_.toolbar.anchor.height, style_.toolbar.anchor.height);
+            uiReference_.btnLoopSingle.GetComponent<LayoutElement>().minWidth = style_.toolbar.anchor.height;
+            uiReference_.btnLoopNone.GetComponent<RectTransform>().sizeDelta = new Vector2(style_.toolbar.anchor.height, style_.toolbar.anchor.height);
+            uiReference_.btnLoopNone.GetComponent<LayoutElement>().minWidth = style_.toolbar.anchor.height;
+            loadTextureFromTheme(style_.toolbar.btnLoop.icon, (_texture) =>
+            {
+                uiReference_.btnLoopSingle.GetComponent<RawImage>().texture = _texture;
+            }, () => { });
+            uiReference_.btnVolume.GetComponent<RectTransform>().sizeDelta = new Vector2(style_.toolbar.anchor.height, style_.toolbar.anchor.height);
+            uiReference_.btnVolume.GetComponent<LayoutElement>().minWidth = style_.toolbar.anchor.height;
+            loadTextureFromTheme(style_.toolbar.btnVolume.icon, (_texture) =>
+            {
+                uiReference_.btnVolume.GetComponent<RawImage>().texture = _texture;
+            }, () => { });
+
+            uiReference_.textTime.GetComponent<Text>().fontSize = style_.toolbar.txtTime.fontSize;
+            uiReference_.textTime.GetComponent<RectTransform>().sizeDelta = new Vector2(style_.toolbar.anchor.height, style_.toolbar.anchor.height);
+            uiReference_.textTime.GetComponent<LayoutElement>().minWidth = style_.toolbar.txtTime.width;
+
+            // 时间进度条
+            uiReference_.seeker.GetComponent<RectTransform>().sizeDelta = new Vector2(0, style_.toolbar.sliderTime.height);
+            loadTextureFromTheme(style_.toolbar.sliderTime.background.image, (_texture) =>
+            {
+                var border = new Vector4(style_.toolbar.sliderTime.background.border.left, style_.toolbar.sliderTime.background.border.bottom, style_.toolbar.sliderTime.background.border.right, style_.toolbar.sliderTime.background.border.top);
+                uiReference_.seeker.transform.Find("Background").GetComponent<Image>().sprite = Sprite.Create(_texture, new Rect(0, 0, _texture.width, _texture.height), new Vector2(0.5f, 0.5f), 100, 1, SpriteMeshType.Tight, border);
+            }, () => { });
+            loadTextureFromTheme(style_.toolbar.sliderTime.fill.image, (_texture) =>
+            {
+                var border = new Vector4(style_.toolbar.sliderTime.background.border.left, style_.toolbar.sliderTime.background.border.bottom, style_.toolbar.sliderTime.background.border.right, style_.toolbar.sliderTime.background.border.top);
+                uiReference_.seeker.transform.Find("Fill Area/Fill").GetComponent<Image>().sprite = Sprite.Create(_texture, new Rect(0, 0, _texture.width, _texture.height), new Vector2(0.5f, 0.5f), 100, 1, SpriteMeshType.Tight, border);
+            }, () => { });
+
+            uiReference_.seeker.transform.Find("Handle Slide Area/Handle").GetComponent<RectTransform>().sizeDelta = new Vector2(style_.toolbar.sliderTime.height, 0);
+            loadTextureFromTheme(style_.toolbar.sliderTime.handle.image, (_texture) =>
+            {
+                uiReference_.seeker.transform.Find("Handle Slide Area/Handle").GetComponent<RawImage>().texture = _texture;
+            }, () => { });
+
+            // 音量进度条
+            uiReference_.volume.GetComponent<RectTransform>().sizeDelta = new Vector2(style_.toolbar.sliderVolume.width, style_.toolbar.sliderVolume.height);
+            loadTextureFromTheme(style_.toolbar.sliderVolume.background.image, (_texture) =>
+            {
+                uiReference_.volume.transform.Find("Background").GetComponent<RawImage>().texture = _texture;
+            }, () => { });
+            alignByAncor(uiReference_.volume.transform.Find("Fill Area"), style_.toolbar.sliderVolume.fill.anchor);
+            alignByAncor(uiReference_.volume.transform.Find("Handle Slide Area"), style_.toolbar.sliderVolume.fill.anchor);
+            loadTextureFromTheme(style_.toolbar.sliderVolume.fill.image, (_texture) =>
+            {
+                uiReference_.volume.transform.Find("Fill Area/Fill").GetComponent<RawImage>().texture = _texture;
+            }, () => { });
+            uiReference_.volume.transform.Find("Handle Slide Area/Handle").GetComponent<RectTransform>().sizeDelta = new Vector2(0, style_.toolbar.sliderVolume.handle.anchor.height);
+            loadTextureFromTheme(style_.toolbar.sliderVolume.handle.image, (_texture) =>
+            {
+                uiReference_.volume.transform.Find("Handle Slide Area/Handle").GetComponent<RawImage>().texture = _texture;
+            }, () => { });
         }
 
         private void bindEvents()
@@ -174,7 +244,7 @@ namespace XTC.FMP.MOD.VideoSee.LIB.Unity
             {
                 if (style_.toolbar.visibleMode == "hide")
                     return;
-                uiReference_.toolbar.gameObject.SetActive(true);
+                uiReference_.toolbar.gameObject.SetActive(!uiReference_.toolbar.gameObject.activeSelf);
             });
             uiReference_.btnLoopNone.onClick.AddListener(() =>
             {
