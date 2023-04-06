@@ -44,7 +44,14 @@ namespace XTC.FMP.MOD.VideoSee.LIB.Unity
         private ContentReader contentReader_;
 
         private UiReference uiReference_ = new UiReference();
+        /// <summary>
+        /// 拖动进度前是否在播放
+        /// </summary>
         private bool wasPlayingOnScrub_;
+        /// <summary>
+        /// 是否在拖拽
+        /// </summary>
+        private bool isDraging_;
         private float videoSeekValue_;
         private float volumeAppearTimer_;
         private Coroutine coroutineUpdate_;
@@ -293,6 +300,7 @@ namespace XTC.FMP.MOD.VideoSee.LIB.Unity
             entryBeginDrag.eventID = UnityEngine.EventSystems.EventTriggerType.BeginDrag;
             entryBeginDrag.callback.AddListener((_e) =>
             {
+                isDraging_ = true;
                 onSeekerBeginDrag();
             });
             eventTrigger.triggers.Add(entryBeginDrag);
@@ -303,12 +311,30 @@ namespace XTC.FMP.MOD.VideoSee.LIB.Unity
             entryEndDrag.callback.AddListener((_e) =>
             {
                 onSeekerEndDrag();
+                isDraging_ = false;
             });
             eventTrigger.triggers.Add(entryEndDrag);
-            uiReference_.seeker.onValueChanged.AddListener((_value) =>
+
+            // 创建拖拽事件
+            UnityEngine.EventSystems.EventTrigger.Entry entryDrag = new UnityEngine.EventSystems.EventTrigger.Entry();
+            entryDrag.eventID = UnityEngine.EventSystems.EventTriggerType.Drag;
+            entryDrag.callback.AddListener((_e) =>
             {
                 onSeekerDrag();
             });
+            eventTrigger.triggers.Add(entryDrag);
+
+            // 创建点击事件(Click事件是按键抬起后，所以此处使用PointerDown更合适)
+            UnityEngine.EventSystems.EventTrigger.Entry clickDrag = new UnityEngine.EventSystems.EventTrigger.Entry();
+            clickDrag.eventID = UnityEngine.EventSystems.EventTriggerType.PointerDown;
+            clickDrag.callback.AddListener((_e) =>
+            {
+                // PointerDown 必然在 BeginDrag前触发，所以wasPlayingOnScrub_需在此赋值
+                wasPlayingOnScrub_ = uiReference_._mediaPlayer.Control.IsPlaying();
+                onSeekerDrag();
+                mono_.StartCoroutine(delayPlayOnClick());
+            });
+            eventTrigger.triggers.Add(clickDrag);
         }
 
         private void play()
@@ -340,21 +366,12 @@ namespace XTC.FMP.MOD.VideoSee.LIB.Unity
 
         private void onSeekerBeginDrag()
         {
-            wasPlayingOnScrub_ = uiReference_._mediaPlayer.Control.IsPlaying();
-            if (wasPlayingOnScrub_)
-            {
-                uiReference_._mediaPlayer.Control.Pause();
-            }
-            onSeekerDrag();
         }
 
         private void onSeekerEndDrag()
         {
             if (wasPlayingOnScrub_)
-            {
                 uiReference_._mediaPlayer.Control.Play();
-                wasPlayingOnScrub_ = false;
-            }
         }
 
         private void onSeekerDrag()
@@ -376,7 +393,8 @@ namespace XTC.FMP.MOD.VideoSee.LIB.Unity
                     float duration = uiReference_._mediaPlayer.Info.GetDurationMs();
                     float d = Mathf.Clamp(time / duration, 0.0f, 1.0f);
                     videoSeekValue_ = d;
-                    uiReference_.seeker.value = d;
+                    if (!isDraging_)
+                        uiReference_.seeker.value = d;
 
                     int leftMS = (int)(uiReference_._mediaPlayer.Info.GetDurationMs() - uiReference_._mediaPlayer.Control.GetCurrentTimeMs());
                     int left = leftMS <= 0 ? 0 : leftMS / 1000 + 1;
@@ -410,6 +428,16 @@ namespace XTC.FMP.MOD.VideoSee.LIB.Unity
         {
             uiReference_.btnLoopNone.gameObject.SetActive(loopMode_ == "none");
             uiReference_.btnLoopSingle.gameObject.SetActive(loopMode_ == "single");
+        }
+
+        private IEnumerator delayPlayOnClick()
+        {
+            uiReference_._mediaPlayer.Control.Pause();
+            yield return new WaitForSeconds(0.3f);
+            if (isDraging_)
+                yield break;
+            if (wasPlayingOnScrub_)
+                uiReference_._mediaPlayer.Control.Play();
         }
     }
 }
