@@ -117,6 +117,8 @@ namespace XTC.FMP.MOD.VideoSee.LIB.Unity
         {
             [XmlAttribute("name")]
             public string name { get; set; } = "";
+            [XmlAttribute("muted")]
+            public bool muted { get; set; } = false; 
             [XmlElement("Pending")]
             public UiElement pending { get; set; } = new UiElement();
             [XmlElement("Background")]

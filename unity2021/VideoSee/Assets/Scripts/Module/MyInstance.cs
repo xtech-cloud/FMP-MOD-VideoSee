@@ -133,10 +133,11 @@ namespace XTC.FMP.MOD.VideoSee.LIB.Unity
             uiReference_.btnPlay.gameObject.SetActive(true);
             uiReference_.btnPause.gameObject.SetActive(false);
             uiReference_.volume.gameObject.SetActive(false);
-            uiReference_.volume.value = 1.0f;
+            uiReference_.volume.value = style_.muted ? 0f : 1.0f;
             uiReference_.btnLoopNone.gameObject.SetActive(style_.toolbar.btnLoop.visible && loopMode_ == "none");
             uiReference_.btnLoopSingle.gameObject.SetActive(style_.toolbar.btnLoop.visible && loopMode_ == "single");
             uiReference_._mediaPlayer.Control.SetLooping(loopMode_ == "single");
+            uiReference_._mediaPlayer.Control.SetVolume(uiReference_.volume.value);
 
             play();
         }
