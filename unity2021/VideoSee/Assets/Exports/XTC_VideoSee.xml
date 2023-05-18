@@ -33,33 +33,33 @@
 	<Styles>
 		<Style name="default" muted="false">
 			<Background visible="true" color="#00000088"/>
-			<Pending image="pending#default.png">
+			<Pending image="pending_default.png">
 				<Anchor width="128" height="128"/>
 			</Pending>
 			<ToolBar visibleMode="auto">
 				<Anchor horizontal="center" vertical="bottom" marginH="0" marginV="0" width="1920" height="80"/>
-				<ButtonLoop icon="btnLoop#default.png" mode="none" visible="false"/>
-				<ButtonPlay icon="btnPlay#default.png"/>
-				<ButtonPause icon="btnPause#default.png"/>
-				<ButtonVolume icon="btnVolume#default.png"/>
+				<ButtonLoop icon="btnLoop_default.png" mode="none" visible="false"/>
+				<ButtonPlay icon="btnPlay_default.png"/>
+				<ButtonPause icon="btnPause_default.png"/>
+				<ButtonVolume icon="btnVolume_default.png"/>
 				<TextTime fontSize="22" width="120"/>
 				<SliderTime height="48">
-					<Background image="sliderTime_bg#default.png">
+					<Background image="sliderTime_bg_default.png">
 						<Border left="0" right="0" top="0" bottom="0"/>
 					</Background>
-					<Fill image="sliderTime_fill#default.png">
+					<Fill image="sliderTime_fill_default.png">
 						<Border left="0" right="0" top="0" bottom="0"/>
 					</Fill>
-					<Handle image="sliderTime_handle#default.png"/>
+					<Handle image="sliderTime_handle_default.png"/>
 				</SliderTime>
 				<SliderVolume width="48" height="168">
-					<Background image="sliderVolume_bg#default.png">
+					<Background image="sliderVolume_bg_default.png">
 						<Border left="0" right="0" top="0" bottom="0"/>
 					</Background>
-					<Fill image="sliderVolume_fill#default.png">
+					<Fill image="sliderVolume_fill_default.png">
 						<Anchor width="48" height="136"/>
 					</Fill>
-					<Handle image="sliderVolume_handle#default.png">
+					<Handle image="sliderVolume_handle_default.png">
 						<Anchor width="48" height="48"/>
 					</Handle>
 				</SliderVolume>
@@ -72,28 +72,28 @@
 			</Pending>
 			<ToolBar visibleMode="auto">
 				<Anchor horizontal="center" vertical="bottom" marginH="0" marginV="0" width="656" height="48"/>
-				<ButtonLoop icon="btnLoop#default.png" mode="none" visible="false"/>
-				<ButtonPlay icon="btnPlay#default.png"/>
-				<ButtonPause icon="btnPause#default.png"/>
-				<ButtonVolume icon="btnVolume#default.png"/>
+				<ButtonLoop icon="btnLoop_default.png" mode="none" visible="false"/>
+				<ButtonPlay icon="btnPlay_default.png"/>
+				<ButtonPause icon="btnPause_default.png"/>
+				<ButtonVolume icon="btnVolume_default.png"/>
 				<TextTime fontSize="16" width="80"/>
 				<SliderTime height="28">
-					<Background image="sliderTime_bg#default.png">
+					<Background image="sliderTime_bg_default.png">
 						<Border left="0" right="0" top="0" bottom="0"/>
 					</Background>
-					<Fill image="sliderTime_fill#default.png">
+					<Fill image="sliderTime_fill_default.png">
 						<Padding left="0" right="0" top="0" bottom="0"/>
 					</Fill>
-					<Handle image="sliderTime_handle#default.png"/>
+					<Handle image="sliderTime_handle_default.png"/>
 				</SliderTime>
 				<SliderVolume width="40" height="120">
-					<Background image="sliderVolume_bg#default.png">
+					<Background image="sliderVolume_bg_default.png">
 						<Border left="0" right="0" top="0" bottom="0"/>
 					</Background>
-					<Fill image="sliderVolume_fill#default.png">
+					<Fill image="sliderVolume_fill_default.png">
 						<Anchor width="40" height="97"/>
 					</Fill>
-					<Handle image="sliderVolume_handle#default.png">
+					<Handle image="sliderVolume_handle_default.png">
 						<Anchor width="36" height="36"/>
 					</Handle>
 				</SliderVolume>
