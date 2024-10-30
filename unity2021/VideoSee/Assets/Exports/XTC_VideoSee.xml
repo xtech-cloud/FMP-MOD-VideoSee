@@ -29,6 +29,7 @@
       ToolBar.ButtonLoop.icon: 循环按钮的图片，建议大小和ToolBar.Anchor.height一致
       ToolBar.ButtonPlay.icon: 开始按钮的图片,建议大小和ToolBar.Anchor.height一致
       ToolBar.ButtonPause.icon: 暂停按钮的图片,建议大小和ToolBar.Anchor.height一致
+      ToolBar.ButtonClose.icon: 关闭按钮的图片,建议大小和ToolBar.Anchor.height一致
     -->
 	<Styles>
 		<Style name="default" muted="false">
@@ -63,6 +64,16 @@
 						<Anchor width="48" height="48"/>
 					</Handle>
 				</SliderVolume>
+				<ButtonClose icon="btnClose_default.png" visible="false">
+					<OnClickSubjects>
+            <Subject message="/XTC/VideoSee/Close">
+              <Parameters>
+                <Parameter key="uid" value="default" type="string"/>
+                <Parameter key="delay" value="0" type="float"/>
+              </Parameters>
+            </Subject>
+          </OnClickSubjects> 
+        </ButtonClose>
 			</ToolBar>
 		</Style>
 		<Style name="small">
@@ -97,6 +108,16 @@
 						<Anchor width="36" height="36"/>
 					</Handle>
 				</SliderVolume>
+				<ButtonClose icon="btnClose_default.png" visible="false">
+					<OnClickSubjects>
+            <Subject message="/XTC/VideoSee/Close">
+              <Parameters>
+                <Parameter key="uid" value="small" type="string"/>
+                <Parameter key="delay" value="0" type="float"/>
+              </Parameters>
+            </Subject>
+          </OnClickSubjects> 
+        </ButtonClose>
 			</ToolBar>
 		</Style>
 	</Styles>

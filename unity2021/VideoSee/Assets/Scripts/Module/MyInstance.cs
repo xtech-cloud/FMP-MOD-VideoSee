@@ -33,6 +33,7 @@ namespace XTC.FMP.MOD.VideoSee.LIB.Unity
             public Button btnPlay;
             public Button btnPause;
             public Button btnVolume;
+            public Button btnClose;
 
             public Button btnLoopNone;
             public Button btnLoopSingle;
@@ -90,6 +91,8 @@ namespace XTC.FMP.MOD.VideoSee.LIB.Unity
             uiReference_.btnPlay = uiReference_.toolbar.transform.Find("btnPlay").GetComponent<Button>();
             uiReference_.btnPause = uiReference_.toolbar.transform.Find("btnPause").GetComponent<Button>();
             uiReference_.btnVolume = uiReference_.toolbar.transform.Find("btnVolume").GetComponent<Button>();
+            uiReference_.btnClose = uiReference_.toolbar.transform.Find("btnClose").GetComponent<Button>();
+
 
             applyStyle();
             bindEvents();
@@ -244,6 +247,15 @@ namespace XTC.FMP.MOD.VideoSee.LIB.Unity
             {
                 uiReference_.volume.transform.Find("Handle Slide Area/Handle").GetComponent<RawImage>().texture = _texture;
             }, () => { });
+
+            uiReference_.btnClose.gameObject.SetActive(style_.toolbar.btnClose.visible);
+            uiReference_.btnClose.GetComponent<RectTransform>().sizeDelta = new Vector2(style_.toolbar.anchor.height, style_.toolbar.anchor.height);
+            uiReference_.btnClose.GetComponent<LayoutElement>().minWidth = style_.toolbar.anchor.height;
+            loadTextureFromTheme(style_.toolbar.btnClose.icon, (_texture) =>
+            {
+                uiReference_.btnClose.GetComponent<RawImage>().texture = _texture;
+            }, () => { });
+
         }
 
         private void bindEvents()
@@ -336,6 +348,13 @@ namespace XTC.FMP.MOD.VideoSee.LIB.Unity
                 mono_.StartCoroutine(delayPlayOnClick());
             });
             eventTrigger.triggers.Add(clickDrag);
+
+
+            uiReference_.btnClose.onClick.AddListener(() =>
+            {
+                Dictionary<string, object> variables = new Dictionary<string, object>();
+                publishSubjects(style_.toolbar.btnClose.OnClickSubjects, variables);
+            });
         }
 
         private void play()

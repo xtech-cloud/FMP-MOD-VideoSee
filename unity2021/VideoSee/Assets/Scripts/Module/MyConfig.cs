@@ -82,6 +82,15 @@ namespace XTC.FMP.MOD.VideoSee.LIB.Unity
             [XmlAttribute("mode")]
             public string mode { get; set; } = "none";
         }
+        
+        public class ButtonClose : UiButton
+        {
+            [XmlAttribute("visible")]
+            public bool visible { get; set; } = true;
+
+            [XmlArray("OnClickSubjects"), XmlArrayItem("Subject")]
+            public Subject[] OnClickSubjects { get; set; }  = new Subject[0];
+        }
 
         public class UiText
         {
@@ -111,6 +120,8 @@ namespace XTC.FMP.MOD.VideoSee.LIB.Unity
             public UiSlider sliderTime { get; set; } = new UiSlider();
             [XmlElement("SliderVolume")]
             public UiSlider sliderVolume { get; set; } = new UiSlider();
+            [XmlElement("ButtonClose")]
+            public ButtonClose btnClose{ get; set; } = new ButtonClose();
         }
 
         public class Style
